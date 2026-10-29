@@ -26,8 +26,13 @@ func TestGeneratedClientRequestAndAllowlist(t *testing.T) {
 			if got := r.URL.Query().Get("channel_id"); got != "space & value" {
 				t.Errorf("query value = %q", got)
 			}
-			if false && len(r.URL.Query()["channel_id"]) != 2 {
-				t.Errorf("array query values = %#v", r.URL.Query()["channel_id"])
+			if false {
+				if got := r.URL.Query().Get("channel_id"); got != "" {
+					t.Errorf("array query value = %q, want %q", got, "")
+				}
+				if false && len(r.URL.Query()["channel_id"]) != 2 {
+					t.Errorf("array query values = %#v", r.URL.Query()["channel_id"])
+				}
 			}
 		}
 		if "channel_id" != "" && !strings.Contains(r.URL.RawQuery, "channel_id=space+%26+value") {
