@@ -1,0 +1,176 @@
+{
+  "platform": "rednote",
+  "operationCount": 4,
+  "operationIds": [
+    "rednote-explore",
+    "rednote-note",
+    "rednote-note-comments",
+    "rednote-search-suggest"
+  ],
+  "methods": {
+    "explore": "rednote-explore",
+    "note": "rednote-note",
+    "note_comments": "rednote-note-comments",
+    "search_suggest": "rednote-search-suggest"
+  },
+  "operations": {
+    "rednote-explore": {
+      "id": "rednote-explore",
+      "method": "GET",
+      "path": "/rednote/explore",
+      "pathParams": [],
+      "queryParams": [
+        {
+          "name": "channel_id",
+          "in": "query",
+          "type": "string"
+        }
+      ],
+      "bodyParam": null,
+      "bodyRequired": false,
+      "params": [
+        {
+          "description": "Optional explore channel id from the channels list in a previous response. Unknown values are rejected; omit for the default feed.",
+          "in": "query",
+          "name": "channel_id",
+          "type": "string",
+          "x-example": "homefeed.food_v3"
+        }
+      ],
+      "produces": [
+        "application/json"
+      ],
+      "security": [
+        "ApiKeyAuth"
+      ]
+    },
+    "rednote-note": {
+      "id": "rednote-note",
+      "method": "GET",
+      "path": "/rednote/note",
+      "pathParams": [],
+      "queryParams": [
+        {
+          "name": "url",
+          "in": "query",
+          "type": "string"
+        },
+        {
+          "name": "note_id",
+          "in": "query",
+          "type": "string"
+        }
+      ],
+      "bodyParam": null,
+      "bodyRequired": false,
+      "params": [
+        {
+          "description": "Rednote note URL (/discovery/item/<id> or /explore/<id>; xsec_token optional). Pass url or note_id.",
+          "in": "query",
+          "name": "url",
+          "type": "string",
+          "x-example": "https://www.rednote.com/discovery/item/0123456789abcdef01234567"
+        },
+        {
+          "description": "24-character hex note id (alternative to url)",
+          "in": "query",
+          "name": "note_id",
+          "type": "string",
+          "x-example": "0123456789abcdef01234567"
+        }
+      ],
+      "produces": [
+        "application/json"
+      ],
+      "security": [
+        "ApiKeyAuth"
+      ]
+    },
+    "rednote-note-comments": {
+      "id": "rednote-note-comments",
+      "method": "GET",
+      "path": "/rednote/note-comments",
+      "pathParams": [],
+      "queryParams": [
+        {
+          "name": "url",
+          "in": "query",
+          "type": "string"
+        },
+        {
+          "name": "note_id",
+          "in": "query",
+          "type": "string"
+        },
+        {
+          "name": "cursor",
+          "in": "query",
+          "type": "string"
+        }
+      ],
+      "bodyParam": null,
+      "bodyRequired": false,
+      "params": [
+        {
+          "description": "Rednote note URL (/discovery/item/<id> or /explore/<id>; xsec_token optional). Pass url or note_id.",
+          "in": "query",
+          "name": "url",
+          "type": "string",
+          "x-example": "https://www.rednote.com/discovery/item/0123456789abcdef01234567"
+        },
+        {
+          "description": "24-character hex note id (alternative to url)",
+          "in": "query",
+          "name": "note_id",
+          "type": "string",
+          "x-example": "0123456789abcdef01234567"
+        },
+        {
+          "description": "Pagination cursor from a previous response",
+          "in": "query",
+          "name": "cursor",
+          "type": "string",
+          "x-example": "cursor-1"
+        }
+      ],
+      "produces": [
+        "application/json"
+      ],
+      "security": [
+        "ApiKeyAuth"
+      ]
+    },
+    "rednote-search-suggest": {
+      "id": "rednote-search-suggest",
+      "method": "GET",
+      "path": "/rednote/search-suggest",
+      "pathParams": [],
+      "queryParams": [
+        {
+          "name": "keyword",
+          "in": "query",
+          "type": "string",
+          "required": true
+        }
+      ],
+      "bodyParam": null,
+      "bodyRequired": false,
+      "params": [
+        {
+          "description": "Partially typed search keyword",
+          "in": "query",
+          "name": "keyword",
+          "required": true,
+          "type": "string",
+          "x-example": "coffee"
+        }
+      ],
+      "produces": [
+        "application/json"
+      ],
+      "security": [
+        "ApiKeyAuth"
+      ]
+    }
+  }
+}

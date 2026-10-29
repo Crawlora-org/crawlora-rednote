@@ -1,0 +1,706 @@
+{
+  "basePath": "/api/v1",
+  "definitions": {
+    "app.Response": {
+      "description": "The Response struct is used for wrapping the API response with a code, message, and data.",
+      "properties": {
+        "code": {
+          "description": "Code is the HTTP status code or a custom code used to indicate the result of the request\n@example 200",
+          "type": "integer"
+        },
+        "data": {
+          "description": "Data is the response data (can be any object or null)\n@example {\"id\": 1, \"name\": \"John Doe\"}"
+        },
+        "msg": {
+          "description": "Msg is the message that describes the result of the request\n@example \"Request successful\""
+        }
+      },
+      "type": "object"
+    },
+    "rednote.Channel": {
+      "properties": {
+        "id": {
+          "example": "homefeed.food_v3",
+          "type": "string"
+        },
+        "name": {
+          "example": "Food",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "rednote.Comment": {
+      "properties": {
+        "author": {
+          "$ref": "#/definitions/rednote.CommentAuthor"
+        },
+        "comment_id": {
+          "example": "0123456789abcdef01234567",
+          "type": "string"
+        },
+        "content": {
+          "type": "string"
+        },
+        "created_at": {
+          "example": 1700000000,
+          "type": "integer"
+        },
+        "ip_location": {
+          "example": "Shanghai",
+          "type": "string"
+        },
+        "like_count": {
+          "example": 12,
+          "type": "integer"
+        },
+        "sub_comment_count": {
+          "example": 3,
+          "type": "integer"
+        },
+        "sub_comments": {
+          "items": {
+            "$ref": "#/definitions/rednote.Comment"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "rednote.CommentAuthor": {
+      "properties": {
+        "avatar_url": {
+          "type": "string"
+        },
+        "nickname": {
+          "example": "synthetic_user",
+          "type": "string"
+        },
+        "user_id": {
+          "example": "000000000000000000000002",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "rednote.CommentsResponse": {
+      "properties": {
+        "count": {
+          "example": 20,
+          "type": "integer"
+        },
+        "cursor": {
+          "type": "string"
+        },
+        "has_more": {
+          "type": "boolean"
+        },
+        "items": {
+          "items": {
+            "$ref": "#/definitions/rednote.Comment"
+          },
+          "type": "array"
+        },
+        "note_id": {
+          "example": "0123456789abcdef01234567",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "rednote.ExploreCard": {
+      "properties": {
+        "author": {
+          "$ref": "#/definitions/rednote.NoteAuthor"
+        },
+        "cover_url": {
+          "type": "string"
+        },
+        "liked_count": {
+          "example": 1255,
+          "type": "integer"
+        },
+        "note_id": {
+          "example": "0123456789abcdef01234567",
+          "type": "string"
+        },
+        "note_url": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "type": {
+          "example": "video",
+          "type": "string"
+        },
+        "xsec_token": {
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "rednote.ExploreResponse": {
+      "properties": {
+        "channel_id": {
+          "example": "homefeed_recommend",
+          "type": "string"
+        },
+        "channels": {
+          "items": {
+            "$ref": "#/definitions/rednote.Channel"
+          },
+          "type": "array"
+        },
+        "count": {
+          "example": 30,
+          "type": "integer"
+        },
+        "items": {
+          "items": {
+            "$ref": "#/definitions/rednote.ExploreCard"
+          },
+          "type": "array"
+        }
+      },
+      "type": "object"
+    },
+    "rednote.NoteAuthor": {
+      "properties": {
+        "avatar_url": {
+          "type": "string"
+        },
+        "nickname": {
+          "example": "synthetic_user",
+          "type": "string"
+        },
+        "user_id": {
+          "example": "000000000000000000000002",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "rednote.NoteResponse": {
+      "properties": {
+        "author": {
+          "$ref": "#/definitions/rednote.NoteAuthor"
+        },
+        "description": {
+          "type": "string"
+        },
+        "image_urls": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "note_id": {
+          "example": "0123456789abcdef01234567",
+          "type": "string"
+        },
+        "published_at": {
+          "type": "string"
+        },
+        "stats": {
+          "$ref": "#/definitions/rednote.NoteStats"
+        },
+        "tags": {
+          "items": {
+            "$ref": "#/definitions/rednote.NoteTag"
+          },
+          "type": "array"
+        },
+        "title": {
+          "type": "string"
+        },
+        "type": {
+          "example": "normal",
+          "type": "string"
+        },
+        "url": {
+          "type": "string"
+        },
+        "video_duration_seconds": {
+          "type": "number"
+        },
+        "video_url": {
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "rednote.NoteStats": {
+      "properties": {
+        "collected_count": {
+          "example": 7,
+          "type": "integer"
+        },
+        "comment_count": {
+          "example": 3,
+          "type": "integer"
+        },
+        "liked_count": {
+          "example": 42,
+          "type": "integer"
+        },
+        "share_count": {
+          "example": 1,
+          "type": "integer"
+        }
+      },
+      "type": "object"
+    },
+    "rednote.NoteTag": {
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "example": "synthetic_tag",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "rednote.SuggestItem": {
+      "properties": {
+        "highlight_flags": {
+          "items": {
+            "type": "boolean"
+          },
+          "type": "array"
+        },
+        "search_type": {
+          "example": "notes",
+          "type": "string"
+        },
+        "text": {
+          "example": "coffee",
+          "type": "string"
+        },
+        "type": {
+          "example": "top_note",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "rednote.SuggestResponse": {
+      "properties": {
+        "count": {
+          "example": 10,
+          "type": "integer"
+        },
+        "items": {
+          "items": {
+            "$ref": "#/definitions/rednote.SuggestItem"
+          },
+          "type": "array"
+        },
+        "keyword": {
+          "example": "coffee",
+          "type": "string"
+        },
+        "search_cpl_id": {
+          "type": "string"
+        },
+        "word_request_id": {
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "rednote.commentsResponseDoc": {
+      "properties": {
+        "code": {
+          "example": 200,
+          "type": "integer"
+        },
+        "data": {
+          "$ref": "#/definitions/rednote.CommentsResponse"
+        },
+        "msg": {
+          "example": "OK",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "rednote.exploreResponseDoc": {
+      "properties": {
+        "code": {
+          "example": 200,
+          "type": "integer"
+        },
+        "data": {
+          "$ref": "#/definitions/rednote.ExploreResponse"
+        },
+        "msg": {
+          "example": "OK",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "rednote.noteResponseDoc": {
+      "properties": {
+        "code": {
+          "example": 200,
+          "type": "integer"
+        },
+        "data": {
+          "$ref": "#/definitions/rednote.NoteResponse"
+        },
+        "msg": {
+          "example": "OK",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "rednote.suggestResponseDoc": {
+      "properties": {
+        "code": {
+          "example": 200,
+          "type": "integer"
+        },
+        "data": {
+          "$ref": "#/definitions/rednote.SuggestResponse"
+        },
+        "msg": {
+          "example": "OK",
+          "type": "string"
+        }
+      },
+      "type": "object"
+    }
+  },
+  "host": "api.crawlora.net",
+  "info": {
+    "contact": {
+      "email": "support@crawlora.net",
+      "name": "API Support",
+      "url": "https://crawlora.net"
+    },
+    "description": "Crawlora is a hosted web-data and SERP API: call documented REST endpoints and get normalized JSON instead of HTML to parse — across search/SERP, maps and local, e-commerce, app stores, social, media and finance. One API key; Crawlora runs the proxy rotation, headless browsers and parsing behind the scenes. Billed pay-on-success: charged only on a successful 2xx response, 1-10 credits per call, with a free tier of 2,000 credits per month and no card. A hosted MCP server (mcp.crawlora.net/mcp) exposes the same catalog as agent tools. Search endpoints accept `q` as a universal alias for whichever search-term parameter they document (`query`, `term`, `keyword`, or Amazon's `k`), so one parameter name works across the whole catalog; an explicitly supplied documented name always wins.",
+    "license": {
+      "name": "Crawlora Terms of Service",
+      "url": "https://crawlora.net/terms"
+    },
+    "termsOfService": "https://crawlora.net/terms",
+    "title": "Crawlora API",
+    "version": "1.2",
+    "x-logo": {
+      "altText": "Crawlora",
+      "backgroundColor": "#FFFFFF",
+      "url": "https://raw.githubusercontent.com/Crawlora-org/crawlora-mcp/main/assets/logo-400x400.png"
+    }
+  },
+  "paths": {
+    "/rednote/explore": {
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "description": "Returns one page of the anonymous Rednote (international Xiaohongshu) explore feed as normalized note cards: note id, a public note_url of the form https://www.rednote.com/discovery/item/<id>, the card's short-lived xsec_token, media type, title, cover image, like count, and a public author card. Omit channel_id for the default recommendation feed; use channel_id with an id from the channels list returned by this endpoint for a category feed. The upstream serves one server-rendered page per channel (typically 20-35 cards) and has no credential-free cursor, so there is no pagination. Note detail, user profiles, comments, and search are not available on this anonymous surface: note detail and profiles require the page's guest session, and search requires login, so note_url is a link for a human browser rather than a follow-up API call.",
+        "operationId": "rednote-explore",
+        "parameters": [
+          {
+            "description": "Optional explore channel id from the channels list in a previous response. Unknown values are rejected; omit for the default feed.",
+            "in": "query",
+            "name": "channel_id",
+            "type": "string",
+            "x-example": "homefeed.food_v3"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/rednote.exploreResponseDoc"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/app.Response"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/app.Response"
+            }
+          },
+          "429": {
+            "description": "Too Many Requests",
+            "schema": {
+              "$ref": "#/definitions/app.Response"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/app.Response"
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
+            "schema": {
+              "$ref": "#/definitions/app.Response"
+            }
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "summary": "Anonymous Rednote explore/channel feed",
+        "tags": [
+          "rednote"
+        ]
+      }
+    },
+    "/rednote/note": {
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "description": "Returns one public Rednote note's normalized detail by rendering the note page in a warm anonymous browser and reading the page's own server-rendered noteDetailMap. No account, login, or note token is required: pass a rednote.com /discovery/item/<id> or /explore/<id> URL. Returns note id, media type, title, description text, topic tags, image URLs, an optional video URL with duration, publish time, a public author card, and integer like/collect/comment/share counters. A login modal may be drawn over the page but the note state is still populated. If the note is removed or the page does not expose its state, the endpoint returns 404; if no browser page can be warmed it fails closed with 503.",
+        "operationId": "rednote-note",
+        "parameters": [
+          {
+            "description": "Rednote note URL (/discovery/item/<id> or /explore/<id>; xsec_token optional). Pass url or note_id.",
+            "in": "query",
+            "name": "url",
+            "type": "string",
+            "x-example": "https://www.rednote.com/discovery/item/0123456789abcdef01234567"
+          },
+          {
+            "description": "24-character hex note id (alternative to url)",
+            "in": "query",
+            "name": "note_id",
+            "type": "string",
+            "x-example": "0123456789abcdef01234567"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/rednote.noteResponseDoc"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/app.Response"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/app.Response"
+            }
+          },
+          "429": {
+            "description": "Too Many Requests",
+            "schema": {
+              "$ref": "#/definitions/app.Response"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/app.Response"
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
+            "schema": {
+              "$ref": "#/definitions/app.Response"
+            }
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "summary": "Anonymous Rednote note detail",
+        "tags": [
+          "rednote"
+        ]
+      }
+    },
+    "/rednote/note-comments": {
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "description": "Returns one page of a public Rednote note's comments using a browser-minted signed request against Rednote's web API, with no account or login. Pass a rednote.com /discovery/item/<id> or /explore/<id> note URL; an xsec_token is accepted but not required for comments. Each item includes the comment id, text, like/sub-comment counters, creation time, IP location when exposed, a public author card, and up to five replies; has_more and cursor continue pagination. The request is signed by a shared warm-browser worker, so latency is higher than a plain feed read; when no signer worker is available or the upstream refuses the signed session the endpoint fails closed with 503.",
+        "operationId": "rednote-note-comments",
+        "parameters": [
+          {
+            "description": "Rednote note URL (/discovery/item/<id> or /explore/<id>; xsec_token optional). Pass url or note_id.",
+            "in": "query",
+            "name": "url",
+            "type": "string",
+            "x-example": "https://www.rednote.com/discovery/item/0123456789abcdef01234567"
+          },
+          {
+            "description": "24-character hex note id (alternative to url)",
+            "in": "query",
+            "name": "note_id",
+            "type": "string",
+            "x-example": "0123456789abcdef01234567"
+          },
+          {
+            "description": "Pagination cursor from a previous response",
+            "in": "query",
+            "name": "cursor",
+            "type": "string",
+            "x-example": "cursor-1"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/rednote.commentsResponseDoc"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/app.Response"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/app.Response"
+            }
+          },
+          "429": {
+            "description": "Too Many Requests",
+            "schema": {
+              "$ref": "#/definitions/app.Response"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/app.Response"
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
+            "schema": {
+              "$ref": "#/definitions/app.Response"
+            }
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "summary": "Anonymous Rednote note comments",
+        "tags": [
+          "rednote"
+        ]
+      }
+    },
+    "/rednote/search-suggest": {
+      "get": {
+        "consumes": [
+          "application/json"
+        ],
+        "description": "Returns search suggestions for a partially typed keyword using a browser-minted signed request against Rednote's web API. Suggestions are anonymous and need no account or login; each item carries the suggested text plus optional highlight flags and the suggestion's search type. Only the suggestion list is returned: Rednote search results require a logged-in session and are not exposed. The request is signed by a shared warm-browser worker, so latency is higher than a plain feed read; when no signer worker is available the endpoint fails closed with 503.",
+        "operationId": "rednote-search-suggest",
+        "parameters": [
+          {
+            "description": "Partially typed search keyword",
+            "in": "query",
+            "name": "keyword",
+            "required": true,
+            "type": "string",
+            "x-example": "coffee"
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/rednote.suggestResponseDoc"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/app.Response"
+            }
+          },
+          "429": {
+            "description": "Too Many Requests",
+            "schema": {
+              "$ref": "#/definitions/app.Response"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/app.Response"
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
+            "schema": {
+              "$ref": "#/definitions/app.Response"
+            }
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "summary": "Anonymous Rednote search suggestions",
+        "tags": [
+          "rednote"
+        ]
+      }
+    }
+  },
+  "schemes": [
+    "https"
+  ],
+  "securityDefinitions": {
+    "ApiKeyAuth": {
+      "in": "header",
+      "name": "x-api-key",
+      "type": "apiKey"
+    }
+  },
+  "swagger": "2.0",
+  "tags": [
+    {
+      "name": "rednote"
+    }
+  ]
+}
